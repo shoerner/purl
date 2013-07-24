@@ -18,7 +18,7 @@ sub seperateURL
 	my $incomingURL = join('', @_);
 
 	#get addressing port 
-	index($incomingURL, 'https://') != -1 ? $port = 443 : $port = 80;
+	$incomingURL =~ /https\:\/\// ? $port = 443 : $port = 80;
 
 	#Get addressing hostname
 	if(index($incomingURL, '://') != -1)
@@ -53,7 +53,7 @@ sub seperateURL
 	print "Host: $host\n";
 	print "Path: $path\n";
 }
-sub performRequest
+sub performHTTPRequest
 {
 	$socket = new IO::Socket::INET (
 		PeerHost => $host,
@@ -82,5 +82,5 @@ sub printHTML
 }
 
 seperateURL($ARGV[0]);
-performRequest();
+performHTTPRequest();
 printHTML();
